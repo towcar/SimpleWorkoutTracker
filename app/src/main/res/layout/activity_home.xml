@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context="com.carsonskjerdal.app.workouttracker.HomeActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorAccent"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+
+            android:padding="20dp"
+            android:paddingTop="30dp"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/button"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorLighter"
+                android:text="@string/start_new_workout"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+                android:textSize="20sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorLighter"
+                android:elevation="2dp"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:theme="?android:attr/popupWindowStyle"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="20dp"
+                    android:src="@drawable/charicon" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="47dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.72"
+                    android:text="Carson Skjerdal"
+                    android:textColor="#ffffff"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="43dp"
+                    android:background="@color/colorLighter"
+                    android:contentDescription=""
+                    android:onClick="showPopup"
+                    android:src="@drawable/ic_more_vert_white_24dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorLighter"
+                android:elevation="2dp"
+                android:orientation="horizontal"
+                android:theme="?android:attr/popupWindowStyle">
+
+                <include
+                    android:id="@+id/totalreps"
+                    layout="@layout/totals_view"
+                    android:layout_width="148dp"
+                    android:layout_height="100dp" />
+
+                <include
+                    android:id="@+id/totalfill"
+                    layout="@layout/totals_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+
+
+                android:layout_weight="1.09"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Average Muscle Usage"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/chartbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="153dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorLighter"
+                android:elevation="2dp"
+                android:orientation="horizontal"
+                android:theme="?android:attr/popupWindowStyle">
+
+                <include
+                    android:id="@+id/totalreps"
+                    layout="@layout/totals_view"
+                    android:layout_width="148dp"
+                    android:layout_height="100dp" />
+
+                <include
+                    android:id="@+id/totalfill"
+                    layout="@layout/totals_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+
+

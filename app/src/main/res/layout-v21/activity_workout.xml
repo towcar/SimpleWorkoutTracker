@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorAccent"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorLighter"
+        android:orientation="vertical"
+        android:elevation="2dp"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="181dp"
+            android:layout_gravity="top"
+            android:contentDescription=""
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/workoutheader" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="Tip: You haven't done legs in a while.."
+            android:textAlignment="center"
+            android:alpha="0.7"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:elevation="2dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:background="@color/colorPrimaryDark"
+            android:dividerHeight="4dp"
+            android:elevation="1dp"
+            android:scrollbars="vertical"
+            android:soundEffectsEnabled="true" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textAlignment="center"
+            android:background="@color/colorAccent"
+            android:text="@string/add_workout_button"
+            android:textSize="16sp"
+            android:elevation="2dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

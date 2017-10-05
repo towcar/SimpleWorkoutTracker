@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_biceps"
+            android:icon="@drawable/cworkouticon"
+            android:title="Biceps" />
+
+        <item
+            android:id="@+id/nav_back"
+            android:icon="@drawable/cworkouticon"
+            android:title="Back" />
+
+        <item
+            android:id="@+id/nav_shoulders"
+            android:icon="@drawable/cworkouticon"
+            android:title="Shoulders" />
+
+        <item
+            android:id="@+id/nav_chest"
+            android:icon="@drawable/chesticon"
+            android:title="Chest" />
+
+        <item
+            android:id="@+id/nav_core"
+            android:icon="@drawable/cworkouticon"
+            android:title="Core" />
+
+        <item
+            android:id="@+id/nav_legs"
+            android:icon="@drawable/legicon"
+            android:title="Legs" />
+    </group>
+
+
+
+</menu>
