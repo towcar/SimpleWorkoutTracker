@@ -1,6 +1,5 @@
 package com.carsonskjerdal.app.workouttracker;
 
-import android.graphics.drawable.Drawable;
 
 /**
  * Created by Carson on 2017-09-15.
@@ -9,13 +8,23 @@ import android.graphics.drawable.Drawable;
  */
 
 public class Workout {
+    private int ID;
     private String title, weight, reps;
     private int icon;
 
     public Workout() {
     }
 
+    public Workout(int ID, String title, String weight, String reps, int icon) {
+        this.ID = ID;
+        this.title = title;
+        this.weight = weight;
+        this.reps = reps;
+        this.icon = icon;
+    }
+
     public Workout(String title, String weight, String reps, int icon) {
+
         this.title = title;
         this.weight = weight;
         this.reps = reps;
@@ -52,6 +61,14 @@ public class Workout {
 
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
 

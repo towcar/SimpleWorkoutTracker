@@ -3,6 +3,7 @@ package com.carsonskjerdal.app.workouttracker;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -259,32 +260,18 @@ public class MuscleSelectorActivity extends AppCompatActivity {
         workoutList.clear();
         int drawIcon;
 
+        DatabaseHandler db = new DatabaseHandler(this);
+
         //grabs a workout based on the workout selected
         switch (muscle) {
 
             case "bicep": {
                 drawIcon = R.drawable.cworkouticon;
-
-               /* workout = new Workout("Arm Pulls", "25", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Lined Reverse Triceps", "15", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Should Tricep Extensions", "20", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Tricep Rip Pull", "40", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Bicep Pull Up", "42.5", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Cable Curl", "20", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Hammer Curl", "20", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Dual Arm Pulls", "10", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                */
-
-                workoutList = getList(muscle);
-
+                //workoutList = getList(muscle);
+                for(int c = 0; c < db.getWorkoutCount(); c++){
+                    workout = db.getWorkout(c);
+                    if (workout.getIcon() == drawIcon) workoutList.add(workout);
+                }
                 break;
 
             }
@@ -297,6 +284,9 @@ public class MuscleSelectorActivity extends AppCompatActivity {
                 workoutList.add(workout);
                 workout = new Workout("Back Extensions", "0", "8/8/8", drawIcon);
                 workoutList.add(workout);
+
+                workoutList = getList(muscle);
+
                 break;
             }
 
@@ -323,6 +313,7 @@ public class MuscleSelectorActivity extends AppCompatActivity {
 
                 workout = new Workout("Arm Chest", "21", "8/8/8", drawIcon);
                 workoutList.add(workout);
+                //instead add a for loop to pull data from database
                 break;
             }
 

@@ -1,5 +1,13 @@
 package com.carsonskjerdal.app.workouttracker;
 
+import android.content.Context;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +33,7 @@ public class WorkoutStorage {
 
     private static void buildWorkout() {
 
-        int drawIcon = R.drawable.cworkouticon;
+       /* int drawIcon = R.drawable.cworkouticon;
 
         workout = new Workout("Arm Pulls", "25", "8/8/8", drawIcon);
         bicepList.add(workout);
@@ -42,11 +50,11 @@ public class WorkoutStorage {
         workout = new Workout("Hammer Curl", "20", "8/8/8", drawIcon);
         bicepList.add(workout);
         workout = new Workout("Dual Arm Pulls", "10", "8/8/8", drawIcon);
-        bicepList.add(workout);
+        bicepList.add(workout);*/
     }
 
     public static List<Workout> getList(String title) {
-        buildWorkout();
+        //buildWorkout();
         switch (title) {
 
             case "bicep": {
@@ -54,22 +62,22 @@ public class WorkoutStorage {
 
             }
             case "legs": {
-                return bicepList;
+                return legsList;
 
             }
             case "shoulders": {
-                return bicepList;
+                return shouldersList;
 
             }
             case "core": {
-                return bicepList;
+                return coreList;
 
             }
             case "chest": {
-                return bicepList;
+                return chestList;
             }
             case "back": {
-                return bicepList;
+                return backList;
 
             }
         }
@@ -79,10 +87,9 @@ public class WorkoutStorage {
     }
 
 
-    public static void addWorkout(String title, String category, String weight) {
+    public static void addWorkout(String title, String category, String weight, Context context) {
 
         int drawIcon = R.drawable.cworkouticon;
-
 
         workout = new Workout(title, weight, "8/8/8", drawIcon);
 
@@ -92,34 +99,62 @@ public class WorkoutStorage {
                 drawIcon = R.drawable.cworkouticon;
                 workout.setIcon(drawIcon);
                 bicepList.add(workout);
+                saveFile(context, bicepList);
+
             }
             case "Back": {
                 drawIcon = R.drawable.cworkouticon;
                 workout.setIcon(drawIcon);
-               backList.add(workout);
+                backList.add(workout);
+                saveFile(context, backList);
+
             }
             case "Core": {
                 drawIcon = R.drawable.cworkouticon;
                 workout.setIcon(drawIcon);
                 coreList.add(workout);
+                saveFile(context, coreList);
             }
             case "Shoulders": {
                 drawIcon = R.drawable.cworkouticon;
                 workout.setIcon(drawIcon);
                 shouldersList.add(workout);
+                saveFile(context, shouldersList);
             }
             case "Chest": {
                 drawIcon = R.drawable.chesticon;
                 workout.setIcon(drawIcon);
                 chestList.add(workout);
+                saveFile(context, chestList);
             }
             case "Legs": {
                 drawIcon = R.drawable.legicon;
                 workout.setIcon(drawIcon);
                 legsList.add(workout);
+                saveFile(context,legsList);
             }
         }
-
     }
+
+    private static void saveFile(Context context, List<Workout> category) {
+        //update saved data with new data.
+        File directory = new File(context.getFilesDir().getAbsolutePath()
+                + File.separator + "serialization");
+        if (!directory.exists()) directory.mkdirs();
+
+        String filename = "data.txt";
+        ObjectOutput out = null;
+
+        try {
+            out = new ObjectOutputStream(new FileOutputStream(directory
+                    + File.separator + filename));
+            out.writeObject(category);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+
 
