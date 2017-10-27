@@ -3,7 +3,6 @@ package com.carsonskjerdal.app.workouttracker;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,14 +27,13 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.carsonskjerdal.app.workouttracker.WorkoutStorage.getList;
 
-public class MuscleSelectorActivity extends AppCompatActivity {
+public class MuscleSelectorActivity extends AppCompatActivity implements OnDialogCloseListener {
 
     private List<Workout> workoutList = new ArrayList<>();
     MuscleSelectorAdapter myAdapter;
     RecyclerView recyclerView;
-   // private String[] workoutTitles = {"Biceps & Triceps", "Back", "Core", "Shoulders", "Chest", "Legs"};
+    // private String[] workoutTitles = {"Biceps & Triceps", "Back", "Core", "Shoulders", "Chest", "Legs"};
     public Workout workout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
@@ -87,9 +85,9 @@ public class MuscleSelectorActivity extends AppCompatActivity {
             }
         }, 200);
 
-       navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         NavigationMenuView navMenuView = (NavigationMenuView) navView.getChildAt(0);
-        navMenuView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL_LIST));
+        navMenuView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
         mDrawerLayout.clearFocus();
 
@@ -173,6 +171,7 @@ public class MuscleSelectorActivity extends AppCompatActivity {
                 })
         );
 
+
         //should make return button work
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -216,7 +215,7 @@ public class MuscleSelectorActivity extends AppCompatActivity {
 
 
     private void selectItem(int position) {
-    //changes the recyclerView based on selection
+        //changes the recyclerView based on selection
         switch (position) {
             case 0:
                 Log.e("case test", "" + position);
@@ -258,7 +257,7 @@ public class MuscleSelectorActivity extends AppCompatActivity {
     private void setupAdapterList(String muscle) {
         //wipes the workout list of data
         workoutList.clear();
-        int drawIcon;
+        int drawIcon = 0;
 
         DatabaseHandler db = new DatabaseHandler(this);
 
@@ -266,62 +265,45 @@ public class MuscleSelectorActivity extends AppCompatActivity {
         switch (muscle) {
 
             case "bicep": {
+
                 drawIcon = R.drawable.cworkouticon;
-                //workoutList = getList(muscle);
-                for(int c = 0; c < db.getWorkoutCount(); c++){
-                    workout = db.getWorkout(c);
-                    if (workout.getIcon() == drawIcon) workoutList.add(workout);
-                }
+                //getWorkoutList
+                workoutList = db.getWorkoutList(drawIcon);
                 break;
 
             }
             case "back": {
-                drawIcon = R.drawable.cworkouticon;
-
-                workout = new Workout("Arm Pulls", "25", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Overhead Pull", "20", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Back Extensions", "0", "8/8/8", drawIcon);
-                workoutList.add(workout);
-
-                workoutList = getList(muscle);
-
+                drawIcon = R.drawable.backicon;
+                //getWorkoutList
+                workoutList = db.getWorkoutList(drawIcon);
                 break;
             }
 
             case "core": {
-                drawIcon = R.drawable.cworkouticon;
-
-                workout = new Workout("Lift Ups with Support", "10", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                workout = new Workout("Core Leg Raises", "15", "8/8/8", drawIcon);
-                workoutList.add(workout);
+                drawIcon = R.drawable.coreicon;
+                //getWorkoutList
+                workoutList = db.getWorkoutList(drawIcon);
                 break;
             }
 
             case "shoulders": {
-                drawIcon = R.drawable.cworkouticon;
-
-                workout = new Workout("Shoulders", "35", "8/8/8", drawIcon);
-                workoutList.add(workout);
+                drawIcon = R.drawable.shouldersicon;
+                //getWorkoutList
+                workoutList = db.getWorkoutList(drawIcon);
                 break;
             }
 
             case "chest": {
                 drawIcon = R.drawable.chesticon;
-
-                workout = new Workout("Arm Chest", "21", "8/8/8", drawIcon);
-                workoutList.add(workout);
-                //instead add a for loop to pull data from database
+                //getWorkoutList
+                workoutList = db.getWorkoutList(drawIcon);
                 break;
             }
 
             case "legs": {
                 drawIcon = R.drawable.legicon;
-
-                workout = new Workout("Leg Pulls", "45", "8/8/8", drawIcon);
-                workoutList.add(workout);
+                //getWorkoutList
+                workoutList = db.getWorkoutList(drawIcon);
                 break;
             }
 
@@ -339,7 +321,61 @@ public class MuscleSelectorActivity extends AppCompatActivity {
         createDialog.show(fm, "fragment_create_workout");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("Resume", "Resuming");
 
+    }
+
+
+    @Override
+    public void onDialogClose(String category) {
+        category = fixCategoryText(category);
+        setupAdapterList(category);
+        recyclerView.setAdapter(myAdapter);
+        Log.e("Dialog Close", "Update Adapter");
+    }
+
+    private String fixCategoryText(String category){
+
+        String text = "";
+
+        switch (category) {
+
+            case "Biceps & Triceps": {
+                text = "bicep";
+                break;
+
+            }
+            case "Back": {
+                text = "back";
+                break;
+            }
+
+            case "Core": {
+                text = "core";
+                break;
+            }
+
+            case "Shoulders": {
+                text = "shoulders";
+                break;
+            }
+
+            case "Chest": {
+                text = "chest";
+                break;
+            }
+
+            case "Legs": {
+                text = "legs";
+                break;
+            }
+
+        }
+        return text;
+    }
 }
 
 

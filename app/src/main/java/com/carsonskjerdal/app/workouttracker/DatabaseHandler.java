@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database Name
     private static final String DATABASE_NAME = "workoutListManager";
@@ -46,9 +47,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_WORKOUT_TABLE = "CREATE TABLE " + TABLE_WORKOUTS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_WEIGHT + " TEXT"
-                + KEY_REPS + " TEXT"
-                + KEY_ICON + " TEXT" + ")";
+                + KEY_WEIGHT + " TEXT,"
+                + KEY_REPS + " TEXT,"
+                + KEY_ICON + " TEXT" + ");";
         db.execSQL(CREATE_WORKOUT_TABLE);
     }
 
@@ -88,12 +89,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Workout workout = null;
+        Workout workout;
         //ensure the cursor != null as above check proves.
         assert cursor != null;
-        workout = new Workout(Integer.parseInt(cursor.getString(0)),cursor.getString(1), cursor.getString(2), cursor.getString(3), Integer.parseInt(cursor.getString(4)));
+        int count = cursor.getCount();
 
-        // return contact
+        if (count > 0) {
+
+            workout = new Workout(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), Integer.parseInt(cursor.getString(4)));
+            cursor.close();
+            // return contact
+            return workout;
+        }
+        workout = new Workout(0, "", "", "", 0);
         return workout;
     }
 
@@ -120,6 +128,43 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        // return contact list
+        return contactList;
+    }
+
+    // Getting All Contacts
+    public List<Workout> getWorkoutList(int drawIcon) {
+        List<Workout> contactList = new ArrayList<>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
+
+        int icon = drawIcon;
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+
+                //if the icons match then add to list.
+                if (Integer.parseInt(cursor.getString(4)) == icon) {
+                    Log.e("comparing","" + icon + " & " + Integer.parseInt(cursor.getString(4)));
+                    Workout workout = new Workout();
+                    workout.setID(Integer.parseInt(cursor.getString(0)));
+                    workout.setTitle(cursor.getString(1));
+                    workout.setWeight(cursor.getString(2));
+                    workout.setReps(cursor.getString(3));
+                    workout.setIcon(parseInt(cursor.getString(4)));
+                    // Adding workout to list
+                    contactList.add(workout);
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
         // return contact list
         return contactList;
     }
@@ -162,4 +207,3 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 }
-

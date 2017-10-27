@@ -1,8 +1,11 @@
 package com.carsonskjerdal.app.workouttracker;
 
+
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,7 @@ public class CreateWorkoutFragment extends DialogFragment {
 
     private EditText mEditText;
     private EditText mEditText2;
+    OnDialogCloseListener mCallback;
 
 
     public CreateWorkoutFragment() {
@@ -30,6 +34,7 @@ public class CreateWorkoutFragment extends DialogFragment {
         frag.setArguments(args);
         return frag;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +81,14 @@ public class CreateWorkoutFragment extends DialogFragment {
                 int icon = buildIcon(category);
 
                 //pass all the data into a new object for the Recycler View to store and show also refresh
-                db.addWorkout(new Workout(0, title, weight, "8/8/8", icon));
+                db.addWorkout(new Workout(title, weight, "8/8/8", icon));
+                Log.e("Database Build", "Added a new workout: " + title);
+
+
+                //refresh the views I guess..
+                // MuscleSelectorActivity.dialogReset();
+                mCallback.onDialogClose(category);
+
                 dismiss();
             }
         });
@@ -88,24 +100,39 @@ public class CreateWorkoutFragment extends DialogFragment {
         // return inflater.inflate(R.layout.fragment_create_workout, container);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnDialogCloseListener)context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
+
     private int buildIcon(String category) {
-        int icon = R.drawable.cworkouticon;;
+        int icon = R.drawable.cworkouticon;
         switch (category) {
             case "Biceps & Triceps": {
                 icon = R.drawable.cworkouticon;
                 return icon;
             }
             case "Back": {
-                icon = R.drawable.cworkouticon;
+                icon = R.drawable.backicon;
                 return icon;
 
             }
             case "Core": {
-                icon = R.drawable.cworkouticon;
+                icon = R.drawable.coreicon;
                 return icon;
             }
             case "Shoulders": {
-                icon = R.drawable.cworkouticon;
+                icon = R.drawable.shouldersicon;
                 return icon;
             }
             case "Chest": {
@@ -122,16 +149,11 @@ public class CreateWorkoutFragment extends DialogFragment {
         return icon;
     }
 
-        @Override
-        public void onViewCreated (View view, @Nullable Bundle savedInstanceState){
-            super.onViewCreated(view, savedInstanceState);
-            // Get field from view
-            //buttonCancel = view.findViewById(R.id.buttonCancel);
-            // Fetch arguments from bundle and set title
-            //String title = getArguments().getString("title", "Enter Name");
-            //getDialog().setTitle(title);
-            // Show soft keyboard automatically and request focus to field
-        }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
 
 
 }
